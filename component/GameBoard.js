@@ -15,12 +15,13 @@ function GameBoard({ gameManager, setGameManager }) {
         getCellValue: PropTypes.func.isRequired,
       }).isRequired,
       players: PropTypes.array.isRequired,
-      winner: PropTypes.string.isRequired,
+      winner: PropTypes.string,
       initGame: PropTypes.func.isRequired,
       getCurrentPlayer: PropTypes.func.isRequired,
       updatePlayerMoves: PropTypes.func.isRequired,
       switchPlayer: PropTypes.func.isRequired,
       checkWinner: PropTypes.func.isRequired,
+      getPlayerMoves: PropTypes.func.isRequired,
     }).isRequired,
     setGameManager: PropTypes.func.isRequired,
   }
@@ -32,8 +33,8 @@ function GameBoard({ gameManager, setGameManager }) {
     const currentPlayerName = gameManager.getCurrentPlayer().getName();
     const newCells = board.placePiece(row, col, gameManager.getCurrentPlayer().getPiece());
     if (newCells !== null) {
-      updateBoard(newCells);
       gameManager.updatePlayerMoves(currentPlayerName, row, col);
+      updateBoard(newCells);
       gameManager.switchPlayer();
     }
     if(gameManager.checkWinner(currentPlayerName)){
@@ -48,13 +49,21 @@ function GameBoard({ gameManager, setGameManager }) {
   //render the single square
   const renderSquare = (row, col) => {
     const index = row * board.columns + col;
+    const currentPlayerName = gameManager.getCurrentPlayer().getName();
+    const playerMoves = gameManager.getPlayerMoves(currentPlayerName);
+    const isFirstMove = playerMoves.length === 3 && playerMoves[0].row === row && playerMoves[0].col === col;
+
     return (
       <TouchableOpacity
         key={index}
         style={styles.square}
         onPress={() => { handleCellPress(row, col); }}
       >
-      <Text style={styles.squareText}>{board.cells[row][col]}</Text>
+        {isFirstMove?
+        <Text style={[styles.squareText, styles.redText]}>{board.cells[row][col]}</Text>
+        :
+        <Text style={styles.squareText}>{board.cells[row][col]}</Text>
+      }
       </TouchableOpacity>
     )
   }

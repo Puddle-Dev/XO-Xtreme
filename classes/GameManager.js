@@ -55,6 +55,7 @@ class GameManager {
         //delete the first move when the player making the 4th move
         if (this.playerMoves.get(playerName).length > 3) {
             const location = this.playerMoves.get(playerName).shift();
+            // console.log("updatePlayerMoves: ", location);
             this.board.removePiece(location[0], location[1]);
         }
 
@@ -62,6 +63,11 @@ class GameManager {
         for (let moves of this.playerMoves.get(playerName)) {
             console.log(moves)
         }
+    }
+
+    getPlayerMoves(playerName){
+        return this.playerMoves.get(playerName)
+
     }
 
     getPlayerMoveLength(playerName){
@@ -76,6 +82,7 @@ class GameManager {
                 this.gameOver = true;
                 this.winner = playerName;
                 console.log(playerName + " wins!");
+                console.log(moves);
                 return true;
             }
         }
@@ -110,10 +117,13 @@ class GameManager {
 
         const [firstRow, firstCol] = moves[0];
 
-        for (let i = 1; i < moves.length; i++) {
+        for (let i = 1; i < 3; i++) {
             const [row, col] = moves[i];
             //check if the moves are in the diagonal
-            if (Math.abs(row - firstRow) !== Math.abs(col - firstCol)) {
+            // if (Math.abs(row - firstRow) !== Math.abs(col - firstCol)) {
+            //     return false;
+            // }
+            if (row - firstRow !== col - firstCol) {
                 return false;
             }
         }
