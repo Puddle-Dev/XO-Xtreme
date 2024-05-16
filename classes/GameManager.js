@@ -15,26 +15,33 @@ class GameManager {
         this.currentPlayerIndex = 0;
         this.gameOver = false;
         this.winner = null;
-        this.playerMoves.set(this.players[0].name, [{row: null, col: null}]);
-        this.playerMoves.set(this.players[1].name, [{row: null, col: null}]);
+        this.playerMoves.set(this.players[0].name, [])
+        this.playerMoves.set(this.players[1].name, [])
+        return this;
     }
 
     //place a piece on the board
     makeMove(row, col) {
-        console.log("Player " + this.players[this.currentPlayerIndex].name + " is making a moveto: " + row + " " + col);
+        // if (this.gameOver) {
+        //     console.log("Game over. Cannot place piece.");
+        //     return;
+        // }
 
-        if (this.gameOver) {
-            console.log("Game over. Cannot place piece.");
-            return;
-        }
+        // const player = this.players[this.currentPlayerIndex];
+        // //place the piece on the board
+        // if (this.board.placePiece(row, col, player) !== null) {
+        //     //update the player's moves
+        //     this.updatePlayerMoves(player.name, row, col);
+        //     //check if the player wins
+        //     if (this.checkWinner(player.name)) {
+        //         return this.winner;
+        //     }
+        //     //switch to the next player
+        //     this.switchPlayer();
+        //     return this.board;
+        // }
 
-        const player = this.players[this.currentPlayerIndex];
-        console.log(player.getName() + " placed a piece at row: " + row + " column: " + col);
-        this.board.placePiece(row, col, player);
-        this.updatePlayerMoves(player.name, row, col);
-        this.checkWinner(player.name);
-        this.switchPlayer();
-        console.log(player)
+        // return null;
     }
 
     //update the player's moves
@@ -47,10 +54,18 @@ class GameManager {
 
         //delete the first move when the player making the 4th move
         if (this.playerMoves.get(playerName).length > 3) {
-            this.playerMoves.get(playerName).shift();
+            const location = this.playerMoves.get(playerName).shift();
+            this.board.removePiece(location[0], location[1]);
         }
 
-        console.log(playerName + " moves: " + this.playerMoves.get(playerName));
+        console.log(playerName + " moves: ");
+        for (let moves of this.playerMoves.get(playerName)) {
+            console.log(moves)
+        }
+    }
+
+    getPlayerMoveLength(playerName){
+        return this.playerMoves.get(playerName).length === 3;
     }
 
     //check if the player wins
@@ -61,8 +76,11 @@ class GameManager {
                 this.gameOver = true;
                 this.winner = playerName;
                 console.log(playerName + " wins!");
+                return true;
             }
         }
+
+        return false;
     }
 
     //check if the player wins in a row
@@ -113,6 +131,9 @@ class GameManager {
         return this.players[this.currentPlayerIndex];
     }
 
+    getBoard() {
+        return this.board;
+    }
 }
 
 export default GameManager;

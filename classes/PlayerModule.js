@@ -7,11 +7,6 @@ class Player{
         this.piece = piece;
     }
 
-    //get the player's id
-    // getId(){
-    //     return this.id;
-    // }
-
     //get the player's name
     getName(){
         return this.name;
