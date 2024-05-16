@@ -20,30 +20,6 @@ class GameManager {
         return this;
     }
 
-    //place a piece on the board
-    makeMove(row, col) {
-        // if (this.gameOver) {
-        //     console.log("Game over. Cannot place piece.");
-        //     return;
-        // }
-
-        // const player = this.players[this.currentPlayerIndex];
-        // //place the piece on the board
-        // if (this.board.placePiece(row, col, player) !== null) {
-        //     //update the player's moves
-        //     this.updatePlayerMoves(player.name, row, col);
-        //     //check if the player wins
-        //     if (this.checkWinner(player.name)) {
-        //         return this.winner;
-        //     }
-        //     //switch to the next player
-        //     this.switchPlayer();
-        //     return this.board;
-        // }
-
-        // return null;
-    }
-
     //update the player's moves
     updatePlayerMoves(playerName, row, col) {
         if (this.playerMoves.has(playerName)) {
@@ -55,7 +31,6 @@ class GameManager {
         //delete the first move when the player making the 4th move
         if (this.playerMoves.get(playerName).length > 3) {
             const location = this.playerMoves.get(playerName).shift();
-            // console.log("updatePlayerMoves: ", location);
             this.board.removePiece(location[0], location[1]);
         }
 
@@ -119,10 +94,6 @@ class GameManager {
 
         for (let i = 1; i < 3; i++) {
             const [row, col] = moves[i];
-            //check if the moves are in the diagonal
-            // if (Math.abs(row - firstRow) !== Math.abs(col - firstCol)) {
-            //     return false;
-            // }
             if (row - firstRow !== col - firstCol) {
                 return false;
             }
