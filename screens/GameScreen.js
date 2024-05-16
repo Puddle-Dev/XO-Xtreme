@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { View, Text, Button } from 'react-native';
-import Board from './component/Board';
-import GameManager from './classes/GameManager';
-import PlayerModule from './classes/PlayerModule';
-import BoardModule from './classes/BoardModule';
+import Board from '../component/Board';
+import GameManager from '../classes/GameManager';
+import PlayerModule from '../classes/PlayerModule';
+import BoardModule from '../classes/BoardModule';
 
 function GameScreen() {
 
