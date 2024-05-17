@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import GameScreen from './GameScreen';
+import GameScreen from './screens/GameScreen';
 
 export default function App() {
 
