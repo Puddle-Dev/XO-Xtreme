@@ -30,6 +30,7 @@ function GameBoard({ gameManager, setGameManager }) {
 
   const handleCellPress = (row, col) => {
     console.log("row: " + row + " column: " + col + " is clicked");
+    console.log(board);
     const currentPlayerName = gameManager.getCurrentPlayer().getName();
     const newCells = board.placePiece(row, col, gameManager.getCurrentPlayer().getPiece());
     if (newCells !== null) {
@@ -37,9 +38,7 @@ function GameBoard({ gameManager, setGameManager }) {
       updateBoard(newCells);
       gameManager.switchPlayer();
     }
-    if(gameManager.checkWinner(currentPlayerName)){
-        alert("Winner: " + gameManager.winner);
-      }
+   
   }
 
   const updateBoard = (newCells) => {
@@ -96,7 +95,12 @@ function GameBoard({ gameManager, setGameManager }) {
   useEffect(() => {
     console.log("board updated");
     setBoard(gameManager.board);  //update the board
-  }, [board])
+    const currentPlayerName = gameManager.getCurrentPlayer().getName();
+    if(gameManager.checkWinner(currentPlayerName)){
+      alert("Winner: " + gameManager.winner);
+    }
+    console.log(board);
+  }, [board, gameManager.winner, gameManager.board.cells])
 
   return (
     <View>
