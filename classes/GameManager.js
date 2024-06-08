@@ -1,3 +1,5 @@
+import SoundManager from './SoundManager';
+
 class GameManager {
     constructor(board, players) {
         this.board = board;
@@ -6,6 +8,7 @@ class GameManager {
         this.gameOver = false;
         this.winner = null;
         this.playerMoves = new Map();
+        this.soundManager = new SoundManager();
     }
 
     //init the game
@@ -15,8 +18,8 @@ class GameManager {
         this.currentPlayerIndex = 0;
         this.gameOver = false;
         this.winner = null;
-        this.playerMoves.set(this.players[0].name, [])
-        this.playerMoves.set(this.players[1].name, [])
+        this.playerMoves.set(this.players[0].name, []);
+        this.playerMoves.set(this.players[1].name, []);
         return this;
     }
 
@@ -36,16 +39,18 @@ class GameManager {
 
         console.log(playerName + " moves: ");
         for (let moves of this.playerMoves.get(playerName)) {
-            console.log(moves)
+            console.log(moves);
         }
+
+        // Play move sound
+        this.soundManager.play('move');
     }
 
-    getPlayerMoves(playerName){
-        return this.playerMoves.get(playerName)
-
+    getPlayerMoves(playerName) {
+        return this.playerMoves.get(playerName);
     }
 
-    getPlayerMoveLength(playerName){
+    getPlayerMoveLength(playerName) {
         return this.playerMoves.get(playerName).length === 3;
     }
 
@@ -58,10 +63,12 @@ class GameManager {
                 this.winner = playerName;
                 console.log(playerName + " wins!");
                 console.log(moves);
+
+                // Play win sound
+                this.soundManager.play('win');
                 return true;
             }
         }
-
         return false;
     }
 
@@ -89,7 +96,6 @@ class GameManager {
 
     //check if the player wins in a diagonal
     checkDiagonal(moves) {
-
         const [firstRow, firstCol] = moves[0];
 
         for (let i = 1; i < 3; i++) {
@@ -99,7 +105,6 @@ class GameManager {
             }
         }
         return true;
-
     }
 
     //switch to the next player
